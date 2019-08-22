@@ -1,0 +1,23 @@
+{
+  "name": "react-native-flussonic-watcher-react-sdk",
+  "version": "1.5.4",
+  "description": "flussonic-watcher sdk for react-native",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "react-native"
+  ],
+  "author": {
+    "Flussonic Team": "info@flussonic.com"
+  },
+  "homepage": "https://flussonic.com/doc",
+  "license": "SEE LICENSE IN LICENSE",
+  "peerDependencies": {
+    "prop-types": "15.6.2",
+    "react": "16.8.6",
+    "react-native": "0.59.5"
+  }
+}
