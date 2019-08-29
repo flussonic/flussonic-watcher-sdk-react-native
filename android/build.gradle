@@ -3,8 +3,9 @@ buildscript {
         google()
         jcenter()
     }
+    def buildGradleVersion = ext.has('buildGradlePluginVersion') ? ext.get('buildGradlePluginVersion') : '3.4.0'
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.4'
+        classpath "com.android.tools.build:gradle:$buildGradleVersion"
     }
 }
 
@@ -22,8 +23,15 @@ def safeExtGet(prop, fallback) {
     rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
 }
 
+def _reactNativeVersion = safeExtGet('reactNative', '+')
+def _compileSdkVersion = safeExtGet('compileSdkVersion', 28)
+def _buildToolsVersion = safeExtGet('buildToolsVersion', '28.0.3')
+def _minSdkVersion = safeExtGet('minSdkVersion', 19)
+def _targetSdkVersion = safeExtGet('targetSdkVersion', 28)
+
 android {
-    compileSdkVersion 27
+    compileSdkVersion _compileSdkVersion
+    buildToolsVersion _buildToolsVersion
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -40,8 +48,8 @@ android {
     def resultVersionName = "${versionMajor}.${versionMinor}.${versionPatch}"
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 27
+        minSdkVersion _minSdkVersion
+        targetSdkVersion _targetSdkVersion
         versionCode resultVersionCode
         versionName resultVersionName
         ndk.abiFilters 'armeabi-v7a','arm64-v8a','x86','x86_64'
@@ -65,6 +73,6 @@ android {
 }
 
 dependencies {
-    implementation "com.facebook.react:react-native:${safeExtGet('reactNativeVersion', '+')}"
+    implementation "com.facebook.react:react-native:$_reactNativeVersion"
     implementation 'com.flussonic:watcher-sdk:1.6'
 }
