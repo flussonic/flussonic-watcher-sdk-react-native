@@ -83,15 +83,10 @@ Add react-native dependency at the top of your project's target
 
 Add Flussonic Watcher SDK dependency
   ```ruby
-  pod 'react-native-flussonic-watcher-react-sdk', :path => '../node_modules/react-native-flussonic-watcher-react-sdk'
-  pod 'DynamicMobileVLCKit', {
-    :tag => '3.3.0',
-    :git => 'https://github.com/flussonic/DynamicMobileVLCKit.git'
-  }
-  pod 'flussonic-watcher-sdk-ios', {
-    :tag => '1.5.3',
-    :git => 'https://github.com/flussonic/flussonic-watcher-sdk-ios.git',
-  }
+    pod 'react-native-flussonic-watcher-react-sdk', :path => '../node_modules/react-native-flussonic-watcher-react-sdk'
+    # Pod Dependency for react-native-flussonic-watcher-react-sdk
+    pod 'DynamicMobileVLCKit', :http => 'https://flussonic-watcher-mobile-sdk.s3.eu-central-1.amazonaws.com/ios/DynamicMobileVLCKit/release/3.3.0/DynamicMobileVLCKit.zip'
+    pod 'flussonic-watcher-sdk-ios', :http => 'https://flussonic-watcher-mobile-sdk.s3.eu-central-1.amazonaws.com/ios/watcher-sdk/release/1.5.6/FlussonicSDK.zip'
   ```
 
 Install pods
