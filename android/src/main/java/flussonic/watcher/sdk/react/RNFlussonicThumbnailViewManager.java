@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.UiThreadUtil;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.common.MapBuilder;
@@ -18,6 +19,7 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 import flussonic.watcher.sdk.presentation.thumbnail.FlussonicThumbnailView;
+import timber.log.Timber;
 
 @SuppressWarnings("unused")
 public class RNFlussonicThumbnailViewManager extends SimpleViewManager<FlussonicThumbnailView> {
@@ -26,6 +28,8 @@ public class RNFlussonicThumbnailViewManager extends SimpleViewManager<Flussonic
     private static final String NATIVE_EVENT_ON_STATUS = "NATIVE_EVENT_ON_STATUS";
     private static final String NATIVE_EVENT_ON_CLICK = "NATIVE_EVENT_ON_CLICK";
     private static final String PHASED_REGISTRATION_NAMES = "phasedRegistrationNames";
+    private static final String WIDTH = "width";
+    private static final String HEIGHT = "height";
 
     static void setupNativeEvents(ReactApplicationContext reactContext, FlussonicThumbnailView view) {
         //noinspection Convert2Lambda
@@ -79,7 +83,31 @@ public class RNFlussonicThumbnailViewManager extends SimpleViewManager<Flussonic
 
     @ReactProp(name = "url")
     public void setUrl(final FlussonicThumbnailView view, String url) {
-        UiThreadUtil.runOnUiThread(() -> view.setUrl(url));
+        if (url != null) {
+            UiThreadUtil.runOnUiThread(() -> view.setUrl(url));
+        } else {
+            Timber.e("setUrl expected url value String, but got null");
+        }
+    }
+
+    @ReactProp(name = "cacheKey")
+    public void setCacheKey(final FlussonicThumbnailView view, String cacheKey) {
+        //// TODO: update to consistent behaviour with ios sdk
+        //UiThreadUtil.runOnUiThread(() -> view.setCacheKey(cacheKey));
+        Timber.d("Warning: cacheKey prop does not implemented in this version of sdk");
+    }
+
+    @ReactProp(name = "size")
+    public void setSize(final FlussonicThumbnailView view, @Nullable ReadableMap size) {
+        if (size != null) {
+            final int width, height;
+            width = size.hasKey(WIDTH) ? size.getInt(WIDTH) : -1;
+            height = size.hasKey(HEIGHT) ? size.getInt(HEIGHT) : -1;
+            if (width > 0 && height > 0) {
+//                UiThreadUtil.runOnUiThread(() -> view.setSize(width, height));
+                Timber.d("Warning: size prop does not implemented in this version of sdk");
+            }
+        }
     }
 
     @Override
