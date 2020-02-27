@@ -19,8 +19,8 @@ Pod::Spec.new do |s|
   s.exclude_files  = "ios/Frameworks/**/*"
 
   s.dependency 'React'
-  s.dependency 'flussonic-watcher-sdk-ios', '~> 1.5.6'
   s.dependency 'DynamicMobileVLCKit', '~> 3.3'
+  s.dependency 'flussonic-watcher-sdk-ios', '~> 2.0'
 
   s.platform    = :ios, "9.3"
   s.swift_version = "5.0"

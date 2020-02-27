@@ -1,6 +1,6 @@
 package flussonic.watcher.sdk.react;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.View;
 
 import com.facebook.react.bridge.Arguments;
@@ -92,9 +92,7 @@ public class RNFlussonicThumbnailViewManager extends SimpleViewManager<Flussonic
 
     @ReactProp(name = "cacheKey")
     public void setCacheKey(final FlussonicThumbnailView view, String cacheKey) {
-        //// TODO: update to consistent behaviour with ios sdk
-        //UiThreadUtil.runOnUiThread(() -> view.setCacheKey(cacheKey));
-        Timber.d("Warning: cacheKey prop does not implemented in this version of sdk");
+        UiThreadUtil.runOnUiThread(() -> view.setCacheKey(cacheKey));
     }
 
     @ReactProp(name = "size")
@@ -104,8 +102,7 @@ public class RNFlussonicThumbnailViewManager extends SimpleViewManager<Flussonic
             width = size.hasKey(WIDTH) ? size.getInt(WIDTH) : -1;
             height = size.hasKey(HEIGHT) ? size.getInt(HEIGHT) : -1;
             if (width > 0 && height > 0) {
-//                UiThreadUtil.runOnUiThread(() -> view.setSize(width, height));
-                Timber.d("Warning: size prop does not implemented in this version of sdk");
+                UiThreadUtil.runOnUiThread(() -> view.setSize(width, height));
             }
         }
     }
