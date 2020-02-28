@@ -2,9 +2,9 @@ package flussonic.watcher.sdk.react;
 
 import android.app.Activity;
 import android.content.res.Resources;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
@@ -19,12 +19,14 @@ import com.facebook.react.uimanager.events.RCTEventEmitter;
 
 import java.util.Map;
 
+import flussonic.watcher.sdk.domain.pojo.PlaybackStatus;
 import flussonic.watcher.sdk.domain.pojo.UpdateProgressEvent;
 import flussonic.watcher.sdk.presentation.core.listeners.FlussonicBufferingListener;
 import flussonic.watcher.sdk.presentation.core.listeners.FlussonicCollapseExpandTimelineListener;
 import flussonic.watcher.sdk.presentation.core.listeners.FlussonicDownloadRequestListener;
 import flussonic.watcher.sdk.presentation.core.listeners.FlussonicUpdateProgressEventListener;
 import flussonic.watcher.sdk.presentation.watcher.FlussonicWatcherView;
+import timber.log.Timber;
 
 @SuppressWarnings("unused")
 public class RNFlussonicWatcherViewManager extends SimpleViewManager<FlussonicWatcherView> {
@@ -264,7 +266,19 @@ public class RNFlussonicWatcherViewManager extends SimpleViewManager<FlussonicWa
 
     @ReactProp(name = "startPosition")
     public void setStartPosition(final FlussonicWatcherView view, double startPosition) {
-        UiThreadUtil.runOnUiThread(() -> view.setStartPosition((long) startPosition));
+        UiThreadUtil.runOnUiThread(() -> {
+            view.setStartPosition((long) startPosition);
+            try {
+                PlaybackStatus status = view.getPlaybackStatus();
+                if (status == PlaybackStatus.PLAYING ||
+                        status == PlaybackStatus.PREPARING ||
+                        status == PlaybackStatus.PAUSED ) {
+                    view.seek((long) startPosition);
+                }
+            } catch (IllegalStateException ex) {
+                Timber.d(ex,"We should call view.getPlaybackStatus after view.setUrl\n");
+            }
+        });
     }
 
     @ReactProp(name = "toolbarHeight")

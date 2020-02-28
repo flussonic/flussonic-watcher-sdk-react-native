@@ -3,17 +3,17 @@ buildscript {
         google()
         jcenter()
     }
-    def buildGradleVersion = ext.has('buildGradlePluginVersion') ? ext.get('buildGradlePluginVersion') : '3.4.0'
+    def buildGradleVersion = ext.has('buildGradlePluginVersion') ? ext.get('buildGradlePluginVersion') : '3.5.2'
     dependencies {
         classpath "com.android.tools.build:gradle:$buildGradleVersion"
     }
 }
 
 repositories {
-    maven { url 'https://raw.githubusercontent.com/flussonic/flussonic-watcher-sdk-android/master/' }
     google()
     jcenter()
     maven {        url "$projectDir/../../../node_modules/react-native/android"    }
+    maven { url 'https://flussonic-watcher-mobile-sdk.s3.eu-central-1.amazonaws.com/android/watcher-sdk/release' }
 }
 
 apply plugin: 'com.android.library'
@@ -26,7 +26,7 @@ def safeExtGet(prop, fallback) {
 def _reactNativeVersion = safeExtGet('reactNative', '+')
 def _compileSdkVersion = safeExtGet('compileSdkVersion', 28)
 def _buildToolsVersion = safeExtGet('buildToolsVersion', '28.0.3')
-def _minSdkVersion = safeExtGet('minSdkVersion', 19)
+def _minSdkVersion = safeExtGet('minSdkVersion', 16)
 def _targetSdkVersion = safeExtGet('targetSdkVersion', 28)
 
 android {
@@ -42,7 +42,7 @@ android {
     def versionMinor = 0
     def versionPatch = 0
     // Если меняется библиотека (файл aar), aarVersionBuild должен быть равен versionCode библиотеки
-    def aarVersionBuild = 49
+    def aarVersionBuild = 60
 
     def resultVersionCode = versionMajor * 1000000 + versionMinor * 10000 + versionPatch * 100 + aarVersionBuild
     def resultVersionName = "${versionMajor}.${versionMinor}.${versionPatch}"
@@ -74,5 +74,7 @@ android {
 
 dependencies {
     implementation "com.facebook.react:react-native:$_reactNativeVersion"
-    implementation 'com.flussonic:watcher-sdk:1.6'
+    annotationProcessor "com.github.bumptech.glide:compiler:${safeExtGet('glideVersion', '4.10.0')}"
+    // glideCompiler annotationProcessor needed for LibraryGlideModule integration
+    implementation 'com.flussonic:watcher-sdk:2.0.0'
 }

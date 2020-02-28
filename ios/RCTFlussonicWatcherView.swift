@@ -144,6 +144,10 @@ class RCTFlussonicWatcherView: RCTView {
                 print("startPosition: \(String(describing: val))")
                 let fromDouble = TimeInterval(truncating: val!)
                 self.flussonicView?.startPositionDate = Date(timeIntervalSince1970: fromDouble)
+                if vlcAdapter.mediaState == FlussonicPlayerAdapterMediaState.playing ||
+                    vlcAdapter.mediaState == FlussonicPlayerAdapterMediaState.buffering {
+                    self.flussonicView.seek(seconds: Date(timeIntervalSince1970: fromDouble).timeIntervalSince1970)
+                }
             }
         }
         get {
